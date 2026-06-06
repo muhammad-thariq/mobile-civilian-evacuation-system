@@ -23,7 +23,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootKey,
-    initialLocation: '/onboarding',
+    initialLocation: '/route',
     routes: [
       GoRoute(
         path: '/onboarding',

@@ -83,32 +83,23 @@ class _RouteScreenState extends State<RouteScreen>
               routeProgress: t,
             ),
           ),
-          // Navy turn-instruction banner.
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(AppSpacing.lg),
-              child: _TurnBanner(
-                arrived: _arrived,
-                remainingMeters: remainingMeters,
-              ),
-            ),
-          ),
           // Back button.
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.only(left: AppSpacing.lg, top: 96),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: FloatingActionButton.small(
-                  heroTag: 'route-back',
-                  backgroundColor: AppColors.white,
-                  foregroundColor: AppColors.navy,
-                  onPressed: () => context.pop(),
-                  child: const Icon(Icons.arrow_back_rounded),
-                ),
-              ),
-            ),
-          ),
+          // SafeArea(
+          //   child: Padding(
+          //     padding: const EdgeInsets.only(
+          //         left: AppSpacing.lg, top: AppSpacing.lg),
+          //     child: Align(
+          //       alignment: Alignment.centerLeft,
+          //       child: FloatingActionButton.small(
+          //         heroTag: 'route-back',
+          //         backgroundColor: AppColors.white,
+          //         foregroundColor: AppColors.navy,
+          //         onPressed: () => context.pop(),
+          //         child: const Icon(Icons.arrow_back_rounded),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           _RouteSheet(
             progress: t,
             moving: _moving,
@@ -147,60 +138,6 @@ class _RouteScreenState extends State<RouteScreen>
   }
 }
 
-class _TurnBanner extends StatelessWidget {
-  final bool arrived;
-  final int remainingMeters;
-  const _TurnBanner({required this.arrived, required this.remainingMeters});
-
-  @override
-  Widget build(BuildContext context) {
-    final color = arrived ? AppColors.safe : AppColors.navy;
-    return Container(
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(AppSpacing.cardRadius),
-        boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 12)],
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 56,
-            height: 56,
-            decoration: BoxDecoration(
-              color: AppColors.white.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(AppSpacing.md),
-            ),
-            child: Icon(
-              arrived ? Icons.flag_rounded : Icons.turn_left_rounded,
-              color: AppColors.white,
-              size: 36,
-            ),
-          ),
-          const SizedBox(width: AppSpacing.lg),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  arrived
-                      ? 'Anda telah tiba di shelter'
-                      : 'Belok kiri ke Jl. Merdeka',
-                  style: AppTypography.title.copyWith(color: AppColors.white),
-                ),
-                Text(
-                  arrived ? 'Masjid Al-Ikhlas' : 'Sisa $remainingMeters m',
-                  style: AppTypography.body.copyWith(color: Colors.white70),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _RouteSheet extends StatelessWidget {
   final double progress;
   final bool moving;
@@ -231,6 +168,7 @@ class _RouteSheet extends StatelessWidget {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
+        width: double.infinity,
         decoration: const BoxDecoration(
           color: AppColors.surface,
           borderRadius:
@@ -295,6 +233,7 @@ class _RouteSheet extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
+                      flex: 2,
                       child: SizedBox(
                         height: AppSpacing.tapTarget,
                         child: FilledButton.icon(
@@ -311,12 +250,15 @@ class _RouteSheet extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: AppSpacing.md),
-                    SizedBox(
-                      height: AppSpacing.tapTarget,
-                      child: OutlinedButton.icon(
-                        onPressed: () => context.push('/shelters'),
-                        icon: const Icon(Icons.swap_horiz_rounded),
-                        label: const Text('Ganti'),
+                    Expanded(
+                      flex: 1,
+                      child: SizedBox(
+                        height: AppSpacing.tapTarget,
+                        child: OutlinedButton.icon(
+                          onPressed: () => context.push('/shelters'),
+                          icon: const Icon(Icons.swap_horiz_rounded),
+                          label: const Text('Ganti'),
+                        ),
                       ),
                     ),
                   ],
